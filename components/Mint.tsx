@@ -1,5 +1,5 @@
 import { UserPaper } from "./UserPaper";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useContractEvents } from "@thirdweb-dev/react";
 import { useEffect, useRef, useState } from "react";
 import { NFT } from "@thirdweb-dev/sdk";
 import { MediaRenderer } from "@thirdweb-dev/react";
@@ -8,17 +8,18 @@ type MintingAction = {
   isMinting: boolean | undefined;
   error?: string;
   message?: string;
-  collectionFiltered?: NFT[],
+  collectionFiltered?: NFT[];
   isLoading: boolean;
 };
 
 export function Mint() {
-  console.log("qui")   
+  console.log("qui");
   const { walletAddress } = UserPaper();
   const { contract } = useContract(
     "0x8C6026F777fAd0e9F54B6FFBE0fcb2e879142579",
     "edition"
   );
+
   const [minting, setMinting] = useState<MintingAction>({
     isMinting: undefined,
     isLoading: false,
@@ -43,10 +44,16 @@ export function Mint() {
       });
       return;
     }
-    setMinting({
-      isMinting: false,
-      isLoading: false,
-      message: res_data?.message,
+    contract?.events.addEventListener("TransferSingle", (event) => {
+      console.log(event);
+      if (event.data.to === walletAddress) {
+        contract.events.removeAllListeners();
+        setMinting({
+          isMinting: false,
+          isLoading: false,
+          message: res_data?.message,
+        });
+      }
     });
   };
 
@@ -58,10 +65,10 @@ export function Mint() {
       });
       const nfts = await contract?.getOwned(walletAddress);
       const collection = await contract?.getAll();
-      const collection_filtered = collection?.filter(object1 => {
-        return !nfts?.some(object2 => {
+      const collection_filtered = collection?.filter((object1) => {
+        return !nfts?.some((object2) => {
           return object1.metadata.id === object2.metadata.id;
-        })
+        });
       });
       setMinting({
         ...minting,
@@ -78,7 +85,10 @@ export function Mint() {
       <div className="flex flex-col w-full max-w-lg gap-y-4">
         {!minting.isLoading &&
           minting?.collectionFiltered?.map((element) => (
-            <div className="flex w-full items-center gap-x-4 bg-slate-100 rounded-xl p-3" key={element.metadata.id}>
+            <div
+              className="flex w-full items-center gap-x-4 bg-slate-100 rounded-xl p-3"
+              key={element.metadata.id}
+            >
               <p className="flex-1">
                 Claim the {element.metadata.name} certificate
               </p>
@@ -110,11 +120,15 @@ export function Mint() {
       />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg text-black">
-            Transaction
-          </h3>
-          {minting.isMinting && <progress className="progress w-2/4 progress-primary self-center"></progress>}
-          {!minting.isMinting && <p>{minting?.error} {minting?.message}</p>}
+          <h3 className="font-bold text-lg text-black">Transaction</h3>
+          {minting.isMinting && (
+            <progress className="progress w-2/4 progress-primary self-center"></progress>
+          )}
+          {!minting.isMinting && (
+            <p>
+              {minting?.error} {minting?.message}
+            </p>
+          )}
           <div className="modal-action">
             <label
               htmlFor="my-modal-6"

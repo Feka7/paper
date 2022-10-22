@@ -20,13 +20,12 @@ export default async function handler(
       "0x8C6026F777fAd0e9F54B6FFBE0fcb2e879142579"
     );
     
-    const resp = await contract.erc1155?.mintAdditionalSupplyTo(
+    contract.erc1155?.mintAdditionalSupplyTo(
       receiver as string,
       id as string,
       1
     );
-    res.status(200).json({ message:  "Mint succesfully! Transaction id: "+resp.id});
-    //res.status(200).json({ message:  "Mint succesfully! Transaction id: "});
+    res.status(200).json({ message:  "Mint submitted"});
   } catch (e) {
     return res.status(500).json({ error: e });
   }
