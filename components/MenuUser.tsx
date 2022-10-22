@@ -48,7 +48,7 @@ export function MenuUser() {
               </ul>
             </div>
             <div className="flex-1 px-2 mx-2 justify-end gap-x-4">
-              <p className="hidden sm:block">{email}</p>
+              <p className="hidden sm:block">{email.slice(0, 2) === "0x" ? email.slice(0, 5).toString().concat("...").concat(email.split("@")[0].slice(-4).concat("@").concat(email.split("@")[1])) : email }</p>
               <ul className="menu menu-horizontal">
                 <li>
               <a href="https://paper.xyz/wallet" target="__blank">

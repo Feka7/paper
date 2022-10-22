@@ -29,7 +29,7 @@ export function UserPaper() {
 
   // render data
   return {
-    email: data.email,
-    walletAddress: data.walletAddress,
+    email: data.email as string,
+    walletAddress: data.walletAddress as string,
   };
 }
