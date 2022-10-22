@@ -13,7 +13,6 @@ type MintingAction = {
 };
 
 export function Mint() {
-  console.log("qui");
   const { walletAddress } = UserPaper();
   const { contract } = useContract(
     "0x8C6026F777fAd0e9F54B6FFBE0fcb2e879142579",

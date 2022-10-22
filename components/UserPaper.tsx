@@ -16,8 +16,8 @@ export function UserPaper() {
     false
   );
 
-  const { data, error } = useSWR(
-    "/api/user-details?userToken=" + paperToken,
+  const { data, error } = useSWR(paperToken ?
+    "/api/user-details?userToken=" + paperToken : null,
     fetcher
   );
 

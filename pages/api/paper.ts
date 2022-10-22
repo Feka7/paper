@@ -9,7 +9,7 @@ export default async function handler(
   }
   const body: { code: string } = req.body;
   const code = body.code;
-
+  console.log(code)
   const resp = await fetch("https://paper.xyz/api/v1/oauth/token", {
     method: "POST",
     headers: {

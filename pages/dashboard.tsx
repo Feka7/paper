@@ -1,18 +1,24 @@
 import { useLocalStorage } from "usehooks-ts";
-import { UserPaper } from "./UserPaper";
+import { UserPaper } from "../components/UserPaper";
 import { Footer } from "../components/Footer";
-import { Mint } from "./Mint";
-import { useState } from "react";
-import { Certificates } from "./Certificates";
+import { Mint } from "../components/Mint";
+import { useEffect, useState } from "react";
+import { Certificates } from "../components/Certificates";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
 
-export function MenuUser() {
+const Dashboard: NextPage = () => {
   const [paperToken, setPaperToken] = useLocalStorage<string | boolean>(
     "paper-token",
     false
   );
-
+  const router = useRouter();
   const { email } = UserPaper();
-  const  [pageMint, setPageMint] = useState<Boolean>(true)
+  const  [pageMint, setPageMint] = useState<boolean>();
+
+  useEffect(() => {
+    setPageMint(true)
+  }, []);
 
   // Ensure that you have a PaperSDKProvider set-up with the proper chain name and client Id.RTIFICATES
   return (
@@ -48,7 +54,7 @@ export function MenuUser() {
               </ul>
             </div>
             <div className="flex-1 px-2 mx-2 justify-end gap-x-4">
-              <p className="hidden sm:block">{email.slice(0, 2) === "0x" ? email.slice(0, 5).toString().concat("...").concat(email.split("@")[0].slice(-4).concat("@").concat(email.split("@")[1])) : email }</p>
+              <p className="hidden sm:block">{email && email.slice(0, 2) === "0x" ? email.slice(0, 5).toString().concat("...").concat(email.split("@")[0].slice(-4).concat("@").concat(email.split("@")[1])) : email }</p>
               <ul className="menu menu-horizontal">
                 <li>
               <a href="https://paper.xyz/wallet" target="__blank">
@@ -58,7 +64,10 @@ export function MenuUser() {
               </a>
               </li>
               <li>
-              <button onClick={() => setPaperToken(false)}>
+              <button onClick={() => {
+                 setPaperToken(false)
+                 router.push("/login");
+                }}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
               </svg>
@@ -87,3 +96,5 @@ export function MenuUser() {
       </div>
   );
 }
+
+export default Dashboard;
