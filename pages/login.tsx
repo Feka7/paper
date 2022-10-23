@@ -12,7 +12,7 @@ type LoginAction = {
 };
 
 const Login: NextPage = () => {
-  const [value, setValue] = useLocalStorage("paper-token", false);
+  const [paperToken, setPaperToken] = useLocalStorage<string>("paper-token", "");
   const [login, setLogin] = useState<LoginAction>({
     isLogging: false,
     error: "",
@@ -40,7 +40,7 @@ const Login: NextPage = () => {
       });
     }
     const { userToken } = await resp.json();
-    setValue(userToken);
+    setPaperToken(userToken);
     router.push("/");
   };
 

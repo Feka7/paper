@@ -8,10 +8,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
-  const [paperToken, setPaperToken] = useLocalStorage<string | boolean>(
-    "paper-token",
-    false
-  );
+  const [paperToken, setPaperToken] = useLocalStorage<string>("paper-token", "");
   const router = useRouter();
   const { email } = UserPaper();
   const  [pageMint, setPageMint] = useState<boolean>();
@@ -65,7 +62,7 @@ const Dashboard: NextPage = () => {
               </li>
               <li>
               <button onClick={() => {
-                 setPaperToken(false)
+                 setPaperToken("")
                  router.push("/login");
                 }}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

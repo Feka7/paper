@@ -11,9 +11,9 @@ const fetcher = async (
 };
 
 export function UserPaper() {
-  const [paperToken, setPaperToken] = useLocalStorage<string | boolean>(
+  const [paperToken, setPaperToken] = useLocalStorage<string>(
     "paper-token",
-    false
+    ""
   );
 
   const { data, error } = useSWR(paperToken ?
