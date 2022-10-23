@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Footer } from "../components/Footer";
-import Dashboard from "./dashboard";
-import Login from "./login";
+import { Loading } from "../components/Loading";
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -23,9 +22,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-    <div className="flex flex-grow w-full place-content-center place-items-center">
-      <progress className="progress w-1/4 progress-primary"></progress>
-    </div>
+    <Loading/>
     <Footer/>
     </>
   );

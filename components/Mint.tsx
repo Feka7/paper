@@ -81,7 +81,7 @@ export function Mint() {
 
   return (
     <>
-      <div className="flex flex-col w-full max-w-lg gap-y-4">
+      <div className={`flex flex-col w-full max-w-lg gap-y-4 ${minting.isLoading ? "" : "py-8 sm:pt-0 sm:h-96 sm:overflow-y-auto"}`}>
         {!minting.isLoading &&
           minting?.collectionFiltered?.map((element) => (
             <div

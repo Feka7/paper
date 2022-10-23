@@ -36,7 +36,7 @@ export function Certificates() {
 
   return (
     <>
-      <div className="flex flex-col w-full max-w-lg gap-y-4">
+      <div className={`flex flex-col w-full max-w-lg gap-y-4 ${loading.isLoading ? "" : "py-8 sm:pt-0 sm:h-96 sm:overflow-y-auto"}`}>
         {!loading.isLoading &&
           loading?.collection?.map((element) => (
             <div className="flex w-full items-center gap-x-4 bg-slate-100 rounded-xl p-3" key={element.metadata.id}>
