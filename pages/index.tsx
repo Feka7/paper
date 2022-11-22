@@ -7,7 +7,7 @@ import { Loading } from "../components/Loading";
 
 const Home: NextPage = () => {
   const router = useRouter()
-  const [paperToken, setPaper] = useLocalStorage<string>("paper-token", "");
+  const [paperToken, setPaperToken] = useLocalStorage<string>("paper-token", "");
 
   useEffect(() => {
     if (!paperToken) {
